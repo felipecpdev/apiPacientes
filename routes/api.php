@@ -20,12 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //Rutas Api Pacientes
-Route::get('pacientes', [PacienteController::class, 'index']);
-
+/*Route::get('pacientes', [PacienteController::class, 'index']);
 Route::post('pacientes', [PacienteController::class, 'store']);
-
 Route::get('pacientes/{paciente}', [PacienteController::class, 'show']);
-
 Route::put('pacientes/{paciente}', [PacienteController::class, 'update']);
-
-Route::delete('pacientes/{paciente}', [PacienteController::class, 'destroy']);
+Route::delete('pacientes/{paciente}', [PacienteController::class, 'destroy']);*/
+Route::apiResource('pacientes', PacienteController::class);
