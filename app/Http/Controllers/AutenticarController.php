@@ -42,7 +42,8 @@ class AutenticarController extends Controller
 
         return response()->json([
             'res' => true,
-            'token' => $token
+            'token' => $token,
+            'user'=>$user
         ], 200);
 
     }
