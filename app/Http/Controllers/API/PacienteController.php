@@ -18,7 +18,7 @@ class PacienteController extends Controller
      */
     public function index()
     {
-        return PacienteResource::collection(Paciente::all());
+        return PacienteResource::collection(Paciente::paginate(3));
     }
 
     /**
@@ -39,7 +39,7 @@ class PacienteController extends Controller
         */
 
         return (new PacienteResource(Paciente::create($request->all())))
-            ->additional(['msg' => 'Paciente Guardado Correctamente']);
+            ->additional(['msg' => 'Paciente Creado Correctamente']);
     }
 
     /**

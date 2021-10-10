@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AccesoRequest;
 use App\Http\Requests\RegistroRequest;
 use App\Models\User;
@@ -20,6 +21,8 @@ class AutenticarController extends Controller
         $user->password = bcrypt($request->password);
         $user->save();
 
+        $user->roles()->attach($request->roles);
+
         return response()->json([
             'res' => true,
             'msg' => 'Usuario Registrado Correctamente'
@@ -30,10 +33,11 @@ class AutenticarController extends Controller
     public function acceso(AccesoRequest $request)
     {
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::with('roles')->where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
+                'res' => true,
                 'msg' => ['Las credenciales son incorrectas.'],
             ]);
         }
@@ -42,8 +46,10 @@ class AutenticarController extends Controller
 
         return response()->json([
             'res' => true,
-            'token' => $token,
-            'user'=>$user
+            'msg' => [
+                'token' => $token,
+                'user' => $user
+            ]
         ], 200);
 
     }
